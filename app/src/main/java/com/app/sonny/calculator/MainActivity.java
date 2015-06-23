@@ -1,48 +1,28 @@
 package com.app.sonny.calculator;
 
-import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.app.Activity;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
-import android.graphics.Typeface;
-import android.os.Build;
-import android.support.v4.view.GestureDetectorCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
 
 public class MainActivity extends Activity{
 
-    public static EditText textField;
-    float inc = 1F;
-    protected float prevInt = 0;
+    public EditText textField;
+
     protected float fnum = 0;
     protected float snum =0;
     protected float result =0;
     protected int operation = 0;
-    protected boolean dec = false;
     protected boolean isNeg = false;
-
-    private int decCount = 1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         this.textField = (EditText)findViewById(R.id.textField);
         textField.setFocusable(false);
@@ -53,7 +33,6 @@ public class MainActivity extends Activity{
                 return true;
             }
         });
-        //textField.setTypeface(Typeface.SERIF);
     }
 
     public void buttonClicked (View view){
@@ -69,8 +48,6 @@ public class MainActivity extends Activity{
 
     public void buttonClickedReceiver (View view){
         String text = textField.getText().toString();
-        //retrieves text from the textfield
-
             switch (view.getId()){
                 case R.id.buttonMultiply:
                 case R.id.buttonDivide:
@@ -83,13 +60,9 @@ public class MainActivity extends Activity{
                     if (text.length() >= 10) return;
             }
 
-
-
-
         if (text.equals("0")){
          text = "";
         }
-
         try{
             Float.parseFloat(text);
         }catch (NumberFormatException e){
@@ -129,7 +102,7 @@ public class MainActivity extends Activity{
             case R.id.button9:
                 text += "9";
                 break;
-            ////OPERATIONS
+
             case R.id.buttonDot:
                 if (text.equals(""))
                 text += "0.";
@@ -137,7 +110,6 @@ public class MainActivity extends Activity{
                 break;
             case R.id.buttonPlus:
                 if (text.equals("")) text  = "0";
-
                 fnum = Float.parseFloat(text);
                 operation = 1;
                 text = "+";
@@ -177,7 +149,7 @@ public class MainActivity extends Activity{
                         break;
                     case 3:
                         try{
-                           if (snum != 0) result = fnum / snum;
+                            result = fnum / snum;
                         }catch (NumberFormatException e){
                             Toast toast = Toast.makeText(getApplicationContext(),"Invalid Operation", Toast.LENGTH_SHORT);
                             toast.show();
@@ -221,33 +193,18 @@ public class MainActivity extends Activity{
         fnum = 0;
         snum = 0;
         result = 0;
-        inc = 1F;
-        prevInt = 0;
-        dec = false;
-        decCount = 1;
         operation = 0;
+        isNeg = false;
         textField.setText("0");
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 }
